@@ -19,10 +19,11 @@ function runEvents() {
 function addTodo(e) {
     const inputText = addInput.value.trim();
     if (inputText == null || inputText == "") {
-        alert("Please enter a value");
+        showAlert("warning","Please do not leave blank")
     } else {
         addTodoUI(inputText);
         addTodoToStorage(inputText);
+        showAlert("success", "Todo added");
     }
 
     e.preventDefault();
@@ -54,9 +55,27 @@ function addTodoToStorage(newTodo) {
 }
 
 function checkTodosFromStorage() {
-    if(localStorage.getItem("todos") === null) {
+    if (localStorage.getItem("todos") === null) {
         todos = [];
-    }else {
+    } else {
         todos = JSON.parse(localStorage.getItem("todos"));
     }
+}
+
+function showAlert(type, message) {
+    /*
+                    <div class="alert alert-warning" role = "alert">
+                        This is a warning alert-check it out
+                    </div> */
+    const div = document.createElement("div");
+    // div.className = "alert alert-" + type; //*alternative way to assign dynamic class
+    div.className = `alert alert-${type}`;
+    div.role = "alert";
+    div.textContent = message;
+
+    firstCardBody.appendChild(div);
+
+    setTimeout(() => {
+        div.remove();
+    }, 2000);
 }
