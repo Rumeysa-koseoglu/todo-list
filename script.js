@@ -15,6 +15,7 @@ runEvents();
 function runEvents() {
     form.addEventListener("submit", addTodo);
     document.addEventListener("DOMContentLoaded", pageLoaded);
+    secondCardBody.addEventListener("click",removeTodoFromUI)
 }
 
 function pageLoaded() {
@@ -22,6 +23,14 @@ function pageLoaded() {
     todos.forEach(function (todo) {
        addTodoToUI(todo);
     })
+}
+
+function removeTodoFromUI(e) {
+    if(e.target.className === "fa fa-remove") {
+        const todo = e.target.parentElement.parentElement;
+        todo.remove();
+        showAlert("succes","Todo successfully deleted")
+    }
 }
 
 function addTodo(e) {
