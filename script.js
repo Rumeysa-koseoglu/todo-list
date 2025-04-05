@@ -7,6 +7,8 @@ const firstCardBody = document.querySelectorAll(".card-body")[0];
 const secondCardBody = document.querySelectorAll(".card-body")[1];
 const clearButton = document.querySelector("#clearButton");
 
+let todos = [];
+
 
 runEvents();
 
@@ -20,6 +22,7 @@ function addTodo(e) {
         alert("Please enter a value");
     } else {
         addTodoUI(inputText);
+        addTodoToStorage(inputText);
     }
 
     e.preventDefault();
@@ -27,7 +30,7 @@ function addTodo(e) {
 
 function addTodoUI(newTodo) {
     const li = document.createElement("li");
-    li.className = "list-group-item d-flex justufy-content-between";
+    li.className = "list-group-item d-flex justify-content-between";
     li.textContent = newTodo;
 
     const a = document.createElement("a");
@@ -42,4 +45,18 @@ function addTodoUI(newTodo) {
     todoList.appendChild(li);
 
     addInput.value = "";
+}
+
+function addTodoToStorage(newTodo) {
+    checkTodosFromStorage();
+    todos.push(newTodo);
+    localStorage.setItem("todos", JSON.stringify(todos));
+}
+
+function checkTodosFromStorage() {
+    if(localStorage.getItem("todos") === null) {
+        todos = [];
+    }else {
+        todos = JSON.parse(localStorage.getItem("todos"));
+    }
 }
