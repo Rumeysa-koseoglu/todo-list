@@ -14,14 +14,22 @@ runEvents();
 
 function runEvents() {
     form.addEventListener("submit", addTodo);
+    document.addEventListener("DOMContentLoaded", pageLoaded);
+}
+
+function pageLoaded() {
+    checkTodosFromStorage();
+    todos.forEach(function (todo) {
+       addTodoToUI(todo);
+    })
 }
 
 function addTodo(e) {
     const inputText = addInput.value.trim();
     if (inputText == null || inputText == "") {
-        showAlert("warning","Please do not leave blank")
+        showAlert("warning", "Please do not leave blank")
     } else {
-        addTodoUI(inputText);
+        addTodoToUI(inputText);
         addTodoToStorage(inputText);
         showAlert("success", "Todo added");
     }
@@ -29,7 +37,7 @@ function addTodo(e) {
     e.preventDefault();
 }
 
-function addTodoUI(newTodo) {
+function addTodoToUI(newTodo) {
     const li = document.createElement("li");
     li.className = "list-group-item d-flex justify-content-between";
     li.textContent = newTodo;
