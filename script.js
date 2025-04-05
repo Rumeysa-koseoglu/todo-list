@@ -15,34 +15,50 @@ runEvents();
 function runEvents() {
     form.addEventListener("submit", addTodo);
     document.addEventListener("DOMContentLoaded", pageLoaded);
-    secondCardBody.addEventListener("click",removeTodoFromUI)
+    secondCardBody.addEventListener("click", removeTodoFromUI);
+    clearButton.addEventListener("click", clearAllTodos);
 }
 
 function pageLoaded() {
     checkTodosFromStorage();
     todos.forEach(function (todo) {
-       addTodoToUI(todo);
+        addTodoToUI(todo);
     })
 }
 
+function clearAllTodos() {
+    const todoListItems = document.querySelectorAll(".list-group-item");
+    if (todoListItems.length > 0) {
+        todoListItems.forEach(function(todo) {
+            todo.remove();
+        });
+
+        todos = [];
+        localStorage.setItem("todos",JSON.stringify(todos));
+        showAlert("success","deleted successfully")
+    } else {
+        showAlert("warning", "There must be at least one task");
+    }
+}
+
 function removeTodoFromUI(e) {
-    if(e.target.className === "fa fa-remove") {
+    if (e.target.className === "fa fa-remove") {
         const todo = e.target.parentElement.parentElement;
         todo.remove();
 
         removeTodoFromStorage(todo.textContent);
-        showAlert("succes","Todo successfully deleted")
+        showAlert("succes", "Todo successfully deleted")
     }
 }
 
 function removeTodoFromStorage(removeTodo) {
     checkTodosFromStorage();
-    todos.forEach(function(todo,index) {
-        if(removeTodo === todo) {
-            todos.splice(index,1)
+    todos.forEach(function (todo, index) {
+        if (removeTodo === todo) {
+            todos.splice(index, 1)
         }
     });
-    localStorage.setItem("todos",JSON.stringify(todos));
+    localStorage.setItem("todos", JSON.stringify(todos));
 }
 
 function addTodo(e) {
